@@ -44,6 +44,7 @@ public class MainFrame extends Frame {
     private Button phaseCButton = new Button("Phase C");
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    private InactivityTimer inactivityTimer;
 
     private void showError(String msg) {
         Dialog errorDialog = new Dialog(this, "Greska", true);
@@ -259,6 +260,12 @@ public class MainFrame extends Frame {
         Thread inactivityThread = new Thread(inactivityTimer);
         inactivityThread.setDaemon(true);
         inactivityThread.start();
+
+        // gasimo main prozor i palimo Phase B prozor (mapu)
+        phaseBButton.addActionListener(e -> {
+            this.setVisible(false);
+            new PhaseBFrame(model, this, inactivityTimer);
+        });
 
     }
 

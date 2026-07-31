@@ -14,6 +14,8 @@ public class InactivityTimer implements Runnable {
     private Label countdownLabel;
     private boolean warningShown = false;
 
+    private volatile boolean paused = false;
+
     public InactivityTimer(Frame parentFrame) {
 
         this.parentFrame = parentFrame;
@@ -24,10 +26,22 @@ public class InactivityTimer implements Runnable {
         }, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        if (!paused) {
+            lastActivity = System.currentTimeMillis(); // Resetujemo vreme po povratku
+        }
+    }
+
     @Override
     public void run() {
 
         while (true) {
+
+            if (paused) {
+                lastActivity = System.currentTimeMillis();
+            }
+
             long elapsed = System.currentTimeMillis() - lastActivity;
 
             if (elapsed >= TIMEOUT_MS) {

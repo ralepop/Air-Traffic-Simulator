@@ -12,6 +12,7 @@ public class Airport {
     private final String code;
     private final int coordX;
     private final int coordY;
+    private boolean visible = true;
 
     public Airport(String name, String code, int coordX, int coordY) throws MyException {
         if (name == null || name.isBlank()) {
@@ -50,6 +51,14 @@ public class Airport {
         sb.append(name).append(" ").append(code).append(" ").append("(")
                 .append(coordX).append(", ").append("y").append(")");
         return sb.toString();
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
 }
